@@ -6,8 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ChoiceBox;
-import sample.figures.Figures;
-import sample.figures.FiguresFactory;
+import sample.figures.Figure;
+import sample.figures.FigureFactory;
 
 import javafx.scene.input.MouseEvent;
 import java.net.URL;
@@ -18,17 +18,24 @@ public class Controller implements Initializable {
 
     @FXML
     private ChoiceBox<String> figureBox;
-    String[] figures = {"Ellipse", "Triangle", "Hexagon", "Trapezium", "Rhombus", "Rectangle"};
+
     @FXML
     private Canvas windowCanvas;
+    private FigureFactory figureFactory;
 
-    private Figures figure;
+    private Figure figure;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        figureBox.getItems().addAll(figures);
-        figureBox.setValue("Ellipse");
+        GraphicsContext graphicsContext = this.windowCanvas.getGraphicsContext2D();
+        figureFactory = new FigureFactory(graphicsContext);
+        figureBox.getItems().add(figureFactory.getFigure("Ellipse").getNameOfFigure());
+        figureBox.getItems().add(figureFactory.getFigure("Triangle").getNameOfFigure());
+        figureBox.getItems().add(figureFactory.getFigure("Hexagon").getNameOfFigure());
+        figureBox.getItems().add(figureFactory.getFigure("Trapezium").getNameOfFigure());
+        figureBox.getItems().add(figureFactory.getFigure("Rhombus").getNameOfFigure());
+        figureBox.getItems().add(figureFactory.getFigure("Rectangle").getNameOfFigure());
     }
 
 
@@ -36,17 +43,15 @@ public class Controller implements Initializable {
     }
 
     public void onMousePressed(MouseEvent mouseEvent) {
-        FiguresFactory figureFactory = new FiguresFactory();
         this.figure = figureFactory.getFigure((String)this.figureBox.getValue());
         this.figure.setX1(mouseEvent.getX());
         this.figure.setY1(mouseEvent.getY());
     }
 
     public void onMouseReleased(MouseEvent mouseEvent) {
-        GraphicsContext gc = this.windowCanvas.getGraphicsContext2D();
         this.figure.setX2(mouseEvent.getX());
         this.figure.setY2(mouseEvent.getY());
-        this.figure.draw(gc);
+        this.figure.print();
     }
 }
 

@@ -2,26 +2,21 @@ package sample.figures;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Rectangle extends Figures {
+public class Rectangle extends Figure {
 
 
     public Rectangle(double x1, double x2, double y1, double y2) {
         super(x1, x2, y1, y2);
     }
 
-    public Rectangle() {
-
+    public Rectangle(GraphicsContext graphicsContext) {
+        super(graphicsContext);
     }
 
     @Override
-    public void draw(GraphicsContext graphicsContext) {
-        graphicsContext.beginPath();
-        graphicsContext.moveTo(this.x1, this.y1);
-        graphicsContext.lineTo(this.x1, this.y2);
-        graphicsContext.lineTo(this.x2, this.y2);
-        graphicsContext.lineTo(this.x2, this.y1);
-        graphicsContext.closePath();
-        graphicsContext.stroke();
+    public void print() {
+        Drawing drawing = new Drawing(x1, y1, x2, y2, graphics);
+        drawing.drawRectangle();
     }
 
     @Override
