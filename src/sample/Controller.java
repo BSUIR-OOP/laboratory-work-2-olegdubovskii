@@ -30,12 +30,9 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         GraphicsContext graphicsContext = this.windowCanvas.getGraphicsContext2D();
         figureFactory = new FigureFactory(graphicsContext);
-        figureBox.getItems().add(figureFactory.getFigure("Ellipse").getNameOfFigure());
-        figureBox.getItems().add(figureFactory.getFigure("Triangle").getNameOfFigure());
-        figureBox.getItems().add(figureFactory.getFigure("Hexagon").getNameOfFigure());
-        figureBox.getItems().add(figureFactory.getFigure("Trapezium").getNameOfFigure());
-        figureBox.getItems().add(figureFactory.getFigure("Rhombus").getNameOfFigure());
-        figureBox.getItems().add(figureFactory.getFigure("Rectangle").getNameOfFigure());
+        for (Figure figure : figureFactory.figureDictionary) {
+            figureBox.getItems().add(figure.getNameOfFigure());
+        }
     }
 
 
