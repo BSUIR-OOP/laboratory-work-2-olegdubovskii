@@ -1,27 +1,20 @@
 package sample.figures;
 
-import javafx.scene.canvas.GraphicsContext;
 
 public class Hexagon extends Figure {
 
-    public Hexagon(double x1, double x2, double y1, double y2) {
-        super(x1, x2, y1, y2);
-    }
-
-    public Hexagon(GraphicsContext graphicsContext) {
-        super(graphicsContext);
+    public Hexagon() {
+        super();
     }
 
     @Override
-    public void print() {
-        Drawing drawing = new Drawing(x1, y1, x2, y2, graphics);
-        drawing.drawHexagon();
-    }
-
-    @Override
-    public void output() {
-        super.output();
-        System.out.println("⬟");
+    public void createDots(Point a, Point b) {
+        dots.add(new Point((a.getX()+ b.getX()) / 2.0D, a.getY()));
+        dots.add(new Point(b.getX(), a.getY() + Math.abs(a.getY() - b.getY()) / 3.0D));
+        dots.add(new Point(b.getX(), b.getY() + Math.abs(a.getY() - b.getY()) / 3.0D));
+        dots.add(new Point((a.getX()+ b.getX()) / 2.0D, b.getY()));
+        dots.add(new Point(a.getX(), b.getY() - Math.abs(a.getY() - b.getY()) / 3.0D));
+        dots.add(new Point(a.getX(), a.getY() + Math.abs(a.getY() - b.getY()) / 3.0D));
     }
 }
 

@@ -6,10 +6,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ChoiceBox;
+import sample.figures.DrawingService;
 import sample.figures.Figure;
-import sample.figures.FigureFactory;
+import sample.figures.FigureDictionary;
 
 import javafx.scene.input.MouseEvent;
+import sample.figures.Point;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,17 +24,18 @@ public class Controller implements Initializable {
 
     @FXML
     private Canvas windowCanvas;
-    private FigureFactory figureFactory;
+    private FigureDictionary figureDictionary;
+    private GraphicsContext graphicsContext;
 
-    private Figure figure;
+    private Point initPoint;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        GraphicsContext graphicsContext = this.windowCanvas.getGraphicsContext2D();
-        figureFactory = new FigureFactory(graphicsContext);
-        for (Figure figure : figureFactory.figureDictionary) {
-            figureBox.getItems().add(figure.getNameOfFigure());
+        graphicsContext = this.windowCanvas.getGraphicsContext2D();
+        figureDictionary = new FigureDictionary();
+        for (String tempFigure : figureDictionary.dictionary.keySet()) {
+            figureBox.getItems().add(tempFigure);
         }
     }
 
@@ -40,15 +44,17 @@ public class Controller implements Initializable {
     }
 
     public void onMousePressed(MouseEvent mouseEvent) {
-        this.figure = figureFactory.getFigure((String)this.figureBox.getValue());
-        this.figure.setX1(mouseEvent.getX());
-        this.figure.setY1(mouseEvent.getY());
+        initPoint = new Point(mouseEvent.getX(), mouseEvent.getY());
     }
 
-    public void onMouseReleased(MouseEvent mouseEvent) {
-        this.figure.setX2(mouseEvent.getX());
-        this.figure.setY2(mouseEvent.getY());
-        this.figure.print();
+    public void onMouseReleased(MouseEvent mouseEvent) throws CloneNotSupportedException {
+        Point endPoint = new Point(mouseEvent.getX(), mouseEvent.getY());
+        Figure figure = figureDictionary.dictionary.get((String) this.figureBox.getValue());
+        Figure mdFigure = figure.clone();
+        mdFigure.createDots(initPoint, endPoint);
+        DrawingService drawingService = new DrawingService(mdFigure, graphicsContext);
+        drawingService.drawFigure();
     }
+
 }
 

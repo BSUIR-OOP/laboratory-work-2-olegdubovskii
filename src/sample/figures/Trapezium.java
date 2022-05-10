@@ -1,27 +1,17 @@
 package sample.figures;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Trapezium extends Figure {
 
-    public Trapezium(double x1, double x2, double y1, double y2) {
-        super(x1, x2, y1, y2);
-    }
-
-    public Trapezium(GraphicsContext graphicsContext) {
-        super(graphicsContext);
+    public Trapezium() {
+        super();
     }
 
     @Override
-    public void print() {
-        Drawing drawing = new Drawing(x1, y1, x2, y2, graphics);
-        drawing.drawTrapezium();
-    }
-
-    @Override
-    public void output() {
-        super.output();
-        System.out.println("⏢");
+    public void createDots(Point a, Point b) {
+        dots.add(new Point(a.getX() + Math.abs(a.getX() - b.getX()) / 3.0D, a.getY()));
+        dots.add(new Point(b.getX() - Math.abs(a.getX() - b.getX()) / 3.0D, a.getY()));
+        dots.add(b);
+        dots.add(new Point(a.getX(), b.getY()));
     }
 }
 

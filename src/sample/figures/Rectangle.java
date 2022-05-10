@@ -1,28 +1,19 @@
 package sample.figures;
 
-import javafx.scene.canvas.GraphicsContext;
 
 public class Rectangle extends Figure {
 
 
-    public Rectangle(double x1, double x2, double y1, double y2) {
-        super(x1, x2, y1, y2);
-    }
-
-    public Rectangle(GraphicsContext graphicsContext) {
-        super(graphicsContext);
+    public Rectangle() {
+        super();
     }
 
     @Override
-    public void print() {
-        Drawing drawing = new Drawing(x1, y1, x2, y2, graphics);
-        drawing.drawRectangle();
-    }
-
-    @Override
-    public void output(){
-        super.output();
-        System.out.println("▬");
+    public void createDots(Point a, Point b) {
+        dots.add(a);
+        dots.add(new Point(b.getX(), a.getY()));
+        dots.add(b);
+        dots.add(new Point(a.getX(), b.getY()));
     }
 }
 
